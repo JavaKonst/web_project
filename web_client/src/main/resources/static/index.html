@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Сотрудники компании</h2>
+
+<table id="employersList"></table>
+
+<form action="#">
+    <input id="employer_name" placeholder="ФИО">
+    <input id="employer_birthday" placeholder="Дата рождения">
+    <input id="employer_salary" placeholder="Зарплата">
+    <input id="employer_district" placeholder="Отдел">
+    <button onclick="createEmployer()">Добавить работника</button>
+</form>
+
+<script>
+    function createEmployer() {
+        var employerName = document.getElementById("employer_name").value;
+        var employerBirthday = document.getElementById("employer_birthday").value;
+        var employerSalary = document.getElementById("employer_salary").value;
+        var employerDistrict = document.getElementById("employer_district").value;
+
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("POST", "http://localhost:8080/service/e_create");
+        // xmlhttp.setRequestHeader("Content-Type", "application/json");
+        // xmlhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
+        let d = JSON.stringify({name: employerName, birthday: employerBirthday, salary: employerSalary, district: employerDistrict});
+        xmlhttp.send(d);
+
+        loadEmployers();
+    }
+
+    function loadEmployers() {
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(this.responseText);
+                let employers = JSON.parse(this.responseText);
+                let html = '<tr>\n' +
+                    '        <th>ID</th>\n' +
+                    '        <th>ФИО</th>\n' +
+                    '        <th>Дата рождения</th>\n' +
+                    '        <th>Зарплата</th>\n' +
+                    '        <th>Отдел</th>\n' +
+                    '        <th>Удалить</th>\n' +
+                    '    </tr>';
+                for (let i = 0; i < employers.length; i++) {
+                    let employer = employers[i];
+                    html = html + '<tr><td>' +  employer.id + '</td>\n' +
+                        '        <td>' + employer.name + '</td>\n' +
+                        '        <td>' + employer.birthday + '</td>\n' +
+                        '        <td>' + employer.salary + '</td>\n' +
+                        '        <td>' + employer.district.name + '</td>' +
+                        '        <td><button onclick="deleteEmployer(' + employer.id + ')">Удалить</button></td>' +
+                        '</tr>';
+
+                }
+                document.getElementById("employersList").innerHTML = html;
+            }
+        };
+        xhttp.open("GET", "http://localhost:8080/service/all_e", true);
+        xhttp.send();
+    }
+
+    loadEmployers();
+</script>
+</body>
+</html>
