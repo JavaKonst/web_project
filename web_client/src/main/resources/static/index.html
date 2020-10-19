@@ -42,10 +42,11 @@
         var employerDistrict = document.getElementById("employer_district").value;
 
         var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("POST", "http://localhost:8080/service/e_create");
-        // xmlhttp.setRequestHeader("Content-Type", "application/json");
-        // xmlhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
+        xmlhttp.open("POST", "http://localhost:8080/e_create");
+        xmlhttp.setRequestHeader("Content-Type", "application/json");
+        xmlhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
         let d = JSON.stringify({name: employerName, birthday: employerBirthday, salary: employerSalary, district: employerDistrict});
+        console.log(d);
         xmlhttp.send(d);
 
         loadEmployers();
@@ -79,7 +80,7 @@
                 document.getElementById("employersList").innerHTML = html;
             }
         };
-        xhttp.open("GET", "http://localhost:8080/service/all_e", true);
+        xhttp.open("GET", "http://localhost:8080/all_e", true);
         xhttp.send();
     }
 

@@ -6,15 +6,18 @@ import com.javakonst.web_service.entity.District;
 import com.javakonst.web_service.entity.Employer;
 import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.*;
 import java.util.Random;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/")
 @AllArgsConstructor
@@ -76,6 +79,8 @@ public class MainController {
             employersService.saveOne(employer);
         }
         
+        
+        
         log.info("БД заполнена!");
     }
     
@@ -86,7 +91,10 @@ public class MainController {
     
     @GetMapping(value = "/all_e{district_name}")
     public List<Employer> getEmployersByDistricts(@RequestParam(defaultValue = "all") String district_name, HttpServletResponse response) {
-        response.setHeader("Access-Control-Allow-Origin", "*");
+//        response.setHeader("Access-Control-Allow-Origin", "*");
+    
+        
+        
         if (district_name.equals("all")) return employersService.getAll();
         return employersService.findByDistrict(district_name);
     }
@@ -119,9 +127,10 @@ public class MainController {
     }
     
     @PostMapping("/e_create")
-    public void createEmployer(@RequestBody Employer employer, HttpServletResponse response) {
-//        response.setHeader("Access-Control-Allow-Origin", "*");
+    public void createEmployer(@RequestBody Employer employer, HttpServletResponse response, HttpServletRequest request) {
+        response.setHeader("Access-Control-Allow-Origin", "*");
 //        response.setHeader("Content-Type", "application/json");
+        log.info(request.getContextPath());
         employersService.saveOne(employer);
     }
     
