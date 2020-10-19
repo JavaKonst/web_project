@@ -1,15 +1,19 @@
 package com.javakonst.web_service.dao;
 
+import com.javakonst.web_service.entity.District;
 import com.javakonst.web_service.entity.Employer;
 import com.javakonst.web_service.services.DistrictsRepository;
 import com.javakonst.web_service.services.EmployersRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.util.Objects.isNull;
 
 @Service
 @AllArgsConstructor
@@ -20,9 +24,15 @@ public class EmployersServiceImpl implements EmployersService {
     
     @Override
     public Employer saveOne(Employer e) {
-        return employersRepo.save(e);
+        District newDistrict = districtsRepo.getByName(e.getDistrict().getName());
+        if (newDistrict!=null){
+            newDistrict.addEmployer(e);
+            districtsRepo.save(newDistrict);
+            return e;
+        }
+        return null;
     }
-    
+
     @Override
     public void deleteOne(long id) {
         employersRepo.deleteById(id);
@@ -37,7 +47,6 @@ public class EmployersServiceImpl implements EmployersService {
         one.setDistrict(e.getDistrict());
     }
     
-    //TODO: подумать нужно ли преобразование
     @Override
     public List<Employer> getAll() {
         return employersRepo.findAll();
@@ -51,15 +60,6 @@ public class EmployersServiceImpl implements EmployersService {
     
     @Override
     public List<Employer> findByDistrict(String district_name) {
-//        List<Employer> employerList = employersRepo.getEmployersByDistrict_Name(district_name);
-//        List<String> list = new ArrayList<>();
-//
-//        for (Employer employer : employerList) {
-//            list.add(employer.toString());
-//        }
-//
-//        return list;
-    
         return employersRepo.getEmployersByDistrict_Name(district_name);
     }
     

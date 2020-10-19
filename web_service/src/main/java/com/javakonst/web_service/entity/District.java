@@ -6,9 +6,11 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Objects.isNull;
+
 
 @Entity
 @Table(name = "districts")
@@ -16,15 +18,16 @@ import static java.util.Objects.isNull;
 public class District {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     @Column
     private String name;
-    
-    @OneToMany(mappedBy = "district", orphanRemoval = true)
+
+    //TODO:Заменить List на Set
+    @OneToMany(mappedBy = "district", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
-    private List<Employer> employers;
+    private List<Employer> employers = new ArrayList<>();
     
     @Override
     public String toString() {
@@ -44,6 +47,11 @@ public class District {
     }
     
     public District() {
+    }
+
+    public void addEmployer(Employer employer){
+        this.employers.add(employer);
+        employer.setDistrict(this);
     }
 }
 

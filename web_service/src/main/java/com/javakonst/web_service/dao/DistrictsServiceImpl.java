@@ -5,6 +5,7 @@ import com.javakonst.web_service.services.DistrictsRepository;
 import com.javakonst.web_service.services.EmployersRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +19,11 @@ public class DistrictsServiceImpl implements DistrictsService {
     
     @Override
     public District saveOne(District d) {
-        return districtsRepo.save(d);
+
+        return districtsRepo.saveAndFlush(d);
     }
-    
+
+    @Transactional
     @Override
     public void deleteOne(long id) {
         districtsRepo.deleteById(id);
@@ -36,13 +39,6 @@ public class DistrictsServiceImpl implements DistrictsService {
     
     @Override
     public List<District> getAll() {
-//        List<District> all = ;
-//        List<String> list = new ArrayList<>();
-//
-//        for (District district : all) {
-//            list.add(district.toString());
-//        }
-//
         return districtsRepo.findAll();
     }
     
@@ -50,6 +46,16 @@ public class DistrictsServiceImpl implements DistrictsService {
     public List<Object> getWithAvgSalary() {
         List<Object> districtsList = districtsRepo.getWithAvgSalary();
         return districtsList;
+    }
+
+    @Override
+    public District getById(long id){
+        return districtsRepo.getOne(id);
+    }
+
+    @Override
+    public District getByName(String name){
+        return districtsRepo.getByName(name);
     }
     
 }

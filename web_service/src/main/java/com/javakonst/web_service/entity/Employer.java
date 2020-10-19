@@ -16,17 +16,16 @@ import java.time.format.DateTimeFormatter;
 public class Employer {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.EAGER)
     @JoinColumn(name = "district_id")
     private District district;
     
     @Column
     private String name;
     
-    //TODO: заменить Data на что-то новое
     @Column
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate birthday;
@@ -45,11 +44,10 @@ public class Employer {
                 '}';
     }
     
-    public Employer(String name, int salary, District district) {
+    public Employer(String name, int salary) {
         super();
         this.name = name;
         this.salary = salary;
-        this.district = district;
     }
     
     public Employer() {

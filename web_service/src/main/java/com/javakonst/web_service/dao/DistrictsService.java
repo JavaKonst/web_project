@@ -5,7 +5,11 @@ import com.javakonst.web_service.entity.District;
 import java.util.List;
 
 public interface DistrictsService {
-    
+
+    public District getById(long id);
+
+    public District getByName(String name);
+
     public District saveOne(District d);
     
     public void deleteOne(long id);
