@@ -28,7 +28,10 @@
     <input id="employer_name" placeholder="ФИО">
     <input id="employer_birthday" placeholder="Дата рождения">
     <input id="employer_salary" placeholder="Зарплата">
-    <input id="employer_district" placeholder="Отдел">
+
+    <select id="employer_district"></select>
+
+<!--    <input id="employer_district" placeholder="Отдел">-->
     <button onclick="createEmployer()">Добавить работника</button>
 </form>
 
@@ -51,14 +54,32 @@
         xmlhttp.send(d);
 
         loadEmployers();
-        loadEmployers();
+    }
+
+    function loadDistricts() {
+        let xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let districts = JSON.parse(this.responseText);
+
+                let html = '<option>Выберите отдел</option>';
+
+                for (let i = 0; i < districts.length; i++) {
+                    let district = districts[i];
+                    html = html + '<option>'+district.name + '</option>'
+                }
+                document.getElementById("employer_district").innerHTML = html;
+            }
+        };
+        xmlhttp.open("GET", "http://localhost:8082/all_d", true);
+<!--    xmlhttp.open("GET", "http://localhost:8080/all_d", true);-->
+        xmlhttp.send();
     }
 
     function loadEmployers() {
         let xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
-                console.log(this.responseText);
                 let employers = JSON.parse(this.responseText);
                 let html = '<tr>\n' +
                     '        <th>ID</th>\n' +
@@ -92,12 +113,13 @@
         let xmlhttp = new XMLHttpRequest();
         let url = "http://localhost:8082/e_delete?id=" + employerId;
         console.log(url);
-        xmlhttp.open("DELETE", url, true);
+        xmlhttp.open("DELETE", url, false);
         xmlhttp.setRequestHeader("Content-Type", "application/json");
         xmlhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
         xmlhttp.send();
     }
 
+    loadDistricts();
     loadEmployers();
 </script>
 </body>
