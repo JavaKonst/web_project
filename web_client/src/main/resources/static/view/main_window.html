@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="/services/controller.js"> </script>
+    <script type="text/javascript" src="/model/main.js"> </script>
+    <link rel="stylesheet" type="text/css" href="/view/style.css">
+</head>
+<body>
+
+<!--<h2 align="center">Сотрудники и отделы компании</h2>-->
+
+<form id="search_form" action="#">
+    <h4>Поиск сотрудников по дате рождения</h4>
+    <input id="date0_employer" type="date">
+    <label> - </label>
+    <input id="date1_employer" type="date">
+    <button onclick="findEmployer()">Найти</button>
+    <button onclick="loadEmployers()">Сброс</button>
+</form>
+
+<form id="get_list" action="#">
+    <h4>Списки отделов и сотрудников</h4>
+    <button onclick="getDistrictsWithAvgSalary()">Отделы</button>
+    <button onclick="loadEmployers()">Сотрудники</button>
+</form>
+
+<form id="input_form" action="#">
+    <h4>Добавить сотрудника</h4>
+    <input id="employer_name" placeholder="ФИО">
+    <input id="employer_birthday" type="date">
+    <input id="employer_salary" placeholder="Зарплата">
+    <select id="employer_district"></select>
+    <button onclick="createEmployer()">Добавить</button>
+</form>
+
+<table id="tableList"></table>
+
+</body>
+</html>
