@@ -85,4 +85,10 @@ public class MainController {
     public List<District> getall(){
         return districtsService.getAll();
     }
+
+    @GetMapping("/all_e_by_district{name}")
+    public List<Employer> getEmployersByDistrict(@RequestParam String name){
+        return employersService.getByDistrictName(name);
+    }
+
 }

@@ -20,4 +20,6 @@ public interface EmployersService {
     public List<Employer> findByDistrict(String district_name);
     
     public List<Employer> findBetweenDate(String data_start, String data_end);
+
+    public List<Employer> getByDistrictName(String name);
 }

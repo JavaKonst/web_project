@@ -6,7 +6,8 @@
         table {
             font-family: arial, sans-serif;
             border-collapse: collapse;
-            width: 100%;
+            width: 90%;
+            margin: 20px
         }
 
         td, th {
@@ -26,14 +27,37 @@
         #search_form {
             margin: 20px;
         }
+
+        #get_list{
+            margin: 20px;
+        }
+
     </style>
 </head>
 <body>
 
-<h2 align="center">Сотрудники компании</h2>
+<!--<h2 align="center">Сотрудники и отделы компании</h2>-->
 
-<h4>Добавить сотрудника</h4>
+
+<form id="search_form" action="#">
+    <h4>Поиск сотрудников по дате рождения</h4>
+    <input id="date0_employer" type="date">
+    <label> - </label>
+    <input id="date1_employer" type="date">
+    <button onclick="findEmployer()">Найти</button>
+    <button onclick="loadEmployers()">Сброс</button>
+</form>
+
+
+<form id="get_list" action="#">
+    <h4>Списки отделов и сотрудников</h4>
+    <button onclick="getDistrictsWithAvgSalary()">Отделы</button>
+    <button onclick="loadEmployers()">Сотрудники</button>
+</form>
+
+
 <form id="input_form" action="#">
+    <h4>Добавить сотрудника</h4>
     <input id="employer_name" placeholder="ФИО">
     <input id="employer_birthday" type="date">
     <input id="employer_salary" placeholder="Зарплата">
@@ -41,19 +65,67 @@
     <button onclick="createEmployer()">Добавить</button>
 </form>
 
-<h4>Поиск сотрудника по дате рождения</h4>
-<form id="search_form" action="#">
-    <input id="date_employer" type="date">
-    <button onclick="findEmployer()">Найти</button>
-    <button onclick="loadEmployers()">Сброс</button>
-</form>
-
-<table id="employersList"></table>
+<table id="tableList"></table>
 
 <script>
+    function getDistrictsWithAvgSalary() {
+        let url = "http://localhost:8082/all_d_with_s";
+        let xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("input_form").style.display = "none";
+                let districts = JSON.parse(this.responseText);
+                let html = '<tr>\n' +
+                                '<th>Название отдела</th>\n' +
+                                '<th>Средняя зарплата</th>\n' +
+                                '<th></th>\n' +
+                                '<th></th>\n' +
+                            '</tr>';
+                for (let i = 0; i < districts.length; i++) {
+                    let district = districts[i];
+                    html = html +
+                        '<tr> '+
+                            '<td>' + district[0] + '</td>\n' +
+                            '<td>' + district[1] + '</td>\n' +
+                            '<td><button onclick="getEmployersByDistrict(\'' + district[0] + '\')">Список сотрудников</button></td>' +
+<!--                            '<td><button onclick="deleteDistrict(' + district[0] + ')">000Удалить отдел</button></td>' +-->
+                        '</tr>';
+
+                }
+                document.getElementById("tableList").innerHTML = html;
+
+            }
+        };
+        xmlhttp.open("GET", url, true);
+        xmlhttp.setRequestHeader("Content-Type", "application/json");
+        xmlhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
+        xmlhttp.send();
+    }
+
+    function getEmployersByDistrict(district_name){
+        let url = "http://localhost:8082/all_e_by_district?name="+district_name;
+        let xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("input_form").style.display = "block";
+                let employers = JSON.parse(this.responseText);
+                createTable(employers);
+                loadDistricts();
+            }
+        };
+        xmlhttp.open("GET", url, true);
+<!--    xmlhttp.open("GET", "http://localhost:8080/all_e", true);-->
+        xmlhttp.send();
+    }
+
     function findEmployer() {
-        let date0 = document.getElementById("date_employer").value;
-        let url = "http://localhost:8082/search?ds=" + date0 + "&de="+date0;
+        let date0 = document.getElementById("date0_employer").value;
+        let date1 = document.getElementById("date1_employer").value;
+        if(date1 == "") {
+            date1=date0;
+            document.getElementById("date1_employer").value = date0;
+        }
+        let url = "http://localhost:8082/search?ds=" + date0 + "&de="+date1;
         let xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
@@ -65,7 +137,7 @@
         xmlhttp.setRequestHeader("Content-Type", "application/json");
         xmlhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
         xmlhttp.send();
-        }
+    }
 
     function createEmployer() {
         let employerName = document.getElementById("employer_name");
@@ -116,14 +188,17 @@
         xmlhttp.open("GET", "http://localhost:8082/all_d", true);
 <!--    xmlhttp.open("GET", "http://localhost:8080/all_d", true);-->
         xmlhttp.send();
+
     }
 
     function loadEmployers() {
-        document.getElementById("date_employer").value = "";
+        document.getElementById("date0_employer").value = "";
+        document.getElementById("date1_employer").value = "";
         let xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 let employers = JSON.parse(this.responseText);
+                document.getElementById("input_form").style.display = "block";
                 createTable(employers);
             }
         };
@@ -131,29 +206,31 @@
 <!--        xmlhttp.open("GET", "http://localhost:8080/all_e", true);-->
         xmlhttp.send();
         loadDistricts();
+
+
     }
 
     function createTable(employers){
         let html = '<tr>\n' +
-                    '        <th>ID</th>\n' +
-                    '        <th>ФИО</th>\n' +
-                    '        <th>Дата рождения</th>\n' +
-                    '        <th>Зарплата</th>\n' +
-                    '        <th>Отдел</th>\n' +
-                    '        <th>Удалить</th>\n' +
-                    '    </tr>';
+                        '<th>ФИО</th>\n' +
+                        '<th>Дата рождения</th>\n' +
+                        '<th>Зарплата</th>\n' +
+                        '<th>Отдел</th>\n' +
+                        '<th>Удалить</th>\n' +
+                   '</tr>';
                 for (let i = 0; i < employers.length; i++) {
                     let employer = employers[i];
-                    html = html + '<tr><td>' +  employer.id + '</td>\n' +
-                        '        <td>' + employer.name + '</td>\n' +
-                        '        <td>' + employer.birthday + '</td>\n' +
-                        '        <td>' + employer.salary + '</td>\n' +
-                        '        <td>' + employer.district.name + '</td>' +
-                        '        <td><button onclick="deleteEmployer(' + employer.id + ')">Удалить</button></td>' +
+                    html = html +
+                        '<tr> '+
+                            '<td>' + employer.name + '</td>\n' +
+                            '<td>' + employer.birthday + '</td>\n' +
+                            '<td>' + employer.salary + '</td>\n' +
+                            '<td>' + employer.district.name + '</td>' +
+                            '<td><button onclick="deleteEmployer(' + employer.id + ')">Удалить</button></td>' +
                         '</tr>';
 
                 }
-                document.getElementById("employersList").innerHTML = html;
+                document.getElementById("tableList").innerHTML = html;
     }
 
     function deleteEmployer(employerId) {

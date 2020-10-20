@@ -72,5 +72,11 @@ public class EmployersServiceImpl implements EmployersService {
         
         return employersRepo.findEmployerByBirthdayBetween(dateStart, dateEnd);
     }
-    
+
+    @Override
+    public List<Employer> getByDistrictName(String name) {
+        return employersRepo.getEmployersByDistrictName(name);
+    }
+
+
 }

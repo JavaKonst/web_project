@@ -25,6 +25,8 @@ public interface EmployersRepository extends JpaRepository<Employer, Long> {
     @Query("delete from Employer e where e.id=:id")
     void deleteById(@Param("id") long id);
 
+    List<Employer> getEmployersByDistrictName(String name);
+
 
 }
 
