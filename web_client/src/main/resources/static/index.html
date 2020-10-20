@@ -36,8 +36,7 @@
 </head>
 <body>
 
-<!--<h2 align="center">Сотрудники и отделы компании</h2>-->
-
+<h2 align="center">Сотрудники и отделы компании</h2>
 
 <form id="search_form" action="#">
     <h4>Поиск сотрудников по дате рождения</h4>
@@ -75,6 +74,7 @@
             if (this.readyState == 4 && this.status == 200) {
                 document.getElementById("input_form").style.display = "none";
                 let districts = JSON.parse(this.responseText);
+                console.log(districts);
                 let html = '<tr>\n' +
                                 '<th>Название отдела</th>\n' +
                                 '<th>Средняя зарплата</th>\n' +
@@ -88,7 +88,7 @@
                             '<td>' + district[0] + '</td>\n' +
                             '<td>' + district[1] + '</td>\n' +
                             '<td><button onclick="getEmployersByDistrict(\'' + district[0] + '\')">Список сотрудников</button></td>' +
-<!--                            '<td><button onclick="deleteDistrict(' + district[0] + ')">000Удалить отдел</button></td>' +-->
+                            '<td><button onclick="deleteDistrict(\'' + district[0] + '\')">Удалить отдел</button></td>' +
                         '</tr>';
 
                 }
@@ -233,13 +233,30 @@
                 document.getElementById("tableList").innerHTML = html;
     }
 
-    function deleteEmployer(employerId) {
+    function deleteEmployer(employer_id) {
         let xmlhttp = new XMLHttpRequest();
-        let url = "http://localhost:8082/e_delete?id=" + employerId;
+        let url = "http://localhost:8082/e_delete?id=" + employer_id;
 
         xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 loadEmployers();
+            }
+        };
+
+        xmlhttp.open("DELETE", url, true);
+        xmlhttp.setRequestHeader("Content-Type", "application/json");
+        xmlhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
+        xmlhttp.send();
+    }
+
+
+    function deleteDistrict(district_name) {
+        let xmlhttp = new XMLHttpRequest();
+        let url = "http://localhost:8082/d_delete?name=" + district_name;
+
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                getDistrictsWithAvgSalary();
             }
         };
 

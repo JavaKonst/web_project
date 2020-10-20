@@ -2,11 +2,8 @@ package com.javakonst.web_service.services;
 
 import com.javakonst.web_service.entity.District;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,6 +20,8 @@ public interface DistrictsRepository extends JpaRepository<District, Long> {
     public List<Object> getWithAvgSalary();
 
     public District getByName(String name);
+
+    public void deleteByName(String name);
 
 }
 

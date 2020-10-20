@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,8 +24,8 @@ public class DistrictsServiceImpl implements DistrictsService {
 
     @Transactional
     @Override
-    public void deleteOne(long id) {
-        districtsRepo.deleteById(id);
+    public void deleteByName(String name) {
+        districtsRepo.deleteByName(name);
     }
     
     @Override

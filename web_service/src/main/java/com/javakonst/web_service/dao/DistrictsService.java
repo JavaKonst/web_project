@@ -12,7 +12,7 @@ public interface DistrictsService {
 
     public District saveOne(District d);
     
-    public void deleteOne(long id);
+    public void deleteByName(String name);
     
     public void updateOne(District d);
     

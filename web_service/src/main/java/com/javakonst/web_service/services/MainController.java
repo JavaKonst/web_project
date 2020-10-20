@@ -6,16 +6,10 @@ import com.javakonst.web_service.entity.District;
 import com.javakonst.web_service.entity.Employer;
 import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
-import java.time.*;
-import java.util.Random;
 
 @CrossOrigin
 @RestController
@@ -50,21 +44,20 @@ public class MainController {
         employersService.deleteOne(id);
     }
 
-    @DeleteMapping("/d_delete{id}")
-    public void deleteDistrictById(@RequestParam(defaultValue = "0") long id) {
-        if (id==0) return;
-        districtsService.deleteOne(id);
+    @DeleteMapping("/d_delete{name}")
+    public void deleteDistrictById(@RequestParam String name) {
+        districtsService.deleteByName(name);
     }
 
-    @PostMapping("/e_update")
-    public void updateEmployer(@RequestBody Employer employer) {
-        employersService.updateOne(employer);
-    }
-
-    @PostMapping("/d_update")
-    public void updateDistrict(@RequestBody District district) {
-        districtsService.updateOne(district);
-    }
+//    @PostMapping("/e_update")
+//    public void updateEmployer(@RequestBody Employer employer) {
+//        employersService.updateOne(employer);
+//    }
+//
+//    @PostMapping("/d_update")
+//    public void updateDistrict(@RequestBody District district) {
+//        districtsService.updateOne(district);
+//    }
 
     @PostMapping("/e_create")
     public void createEmployer(@RequestBody Employer employer) {
@@ -76,10 +69,10 @@ public class MainController {
 
     }
 
-    @PostMapping("/d_create")
-    public void createDistrict(@RequestBody District district) {
-        districtsService.saveOne(district);
-    }
+//    @PostMapping("/d_create")
+//    public void createDistrict(@RequestBody District district) {
+//        districtsService.saveOne(district);
+//    }
 
     @GetMapping("/all_d")
     public List<District> getall(){
