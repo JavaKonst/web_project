@@ -1,14 +1,10 @@
 package com.javakonst.web_service.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "employers")
@@ -27,7 +23,6 @@ public class Employer {
     private String name;
     
     @Column
-    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate birthday;
     
     @Column
@@ -51,6 +46,15 @@ public class Employer {
     }
     
     public Employer() {
+    }
+
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
     }
 }
 

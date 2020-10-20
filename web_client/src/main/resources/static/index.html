@@ -18,42 +18,84 @@
         tr:nth-child(even) {
             background-color: #dddddd;
         }
+
+        #input_form {
+            margin: 20px;
+        }
+
+        #search_form {
+            margin: 20px;
+        }
     </style>
 </head>
 <body>
 
-<h2>Сотрудники компании</h2>
+<h2 align="center">Сотрудники компании</h2>
 
-<form action="#">
+<h4>Добавить сотрудника</h4>
+<form id="input_form" action="#">
     <input id="employer_name" placeholder="ФИО">
-    <input id="employer_birthday" placeholder="Дата рождения">
+    <input id="employer_birthday" type="date">
     <input id="employer_salary" placeholder="Зарплата">
-
     <select id="employer_district"></select>
+    <button onclick="createEmployer()">Добавить</button>
+</form>
 
-<!--    <input id="employer_district" placeholder="Отдел">-->
-    <button onclick="createEmployer()">Добавить работника</button>
+<h4>Поиск сотрудника по дате рождения</h4>
+<form id="search_form" action="#">
+    <input id="date_employer" type="date">
+    <button onclick="findEmployer()">Найти</button>
+    <button onclick="loadEmployers()">Сброс</button>
 </form>
 
 <table id="employersList"></table>
 
 <script>
+    function findEmployer() {
+        let date0 = document.getElementById("date_employer").value;
+        let url = "http://localhost:8082/search?ds=" + date0 + "&de="+date0;
+        let xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let employers = JSON.parse(this.responseText);
+                createTable(employers);
+            }
+        }
+        xmlhttp.open("GET", url, true);
+        xmlhttp.setRequestHeader("Content-Type", "application/json");
+        xmlhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
+        xmlhttp.send();
+        }
+
     function createEmployer() {
-        let employerName = document.getElementById("employer_name").value;
-        let employerBirthday = document.getElementById("employer_birthday").value;
-        let employerSalary = document.getElementById("employer_salary").value;
-        let employerDistrict = document.getElementById("employer_district").value;
+        let employerName = document.getElementById("employer_name");
+        let employerBirthday = document.getElementById("employer_birthday");
+        let employerSalary = document.getElementById("employer_salary");
+        let employerDistrict = document.getElementById("employer_district");
+
+        if(employerName.value=="" || employerBirthday.value=="" || employerSalary.value=="" || employerDistrict.options.selectedIndex==0) {
+            alert("Заполните все поля");
+            return;
+        }
 
         let xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("POST", "http://localhost:8082/e_create");
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                employerName.value = "";
+                employerBirthday.value = "";
+                employerSalary.value = "";
+                employerDistrict.value = "";
+
+                loadEmployers();
+            }
+        }
+
+        xmlhttp.open("POST", "http://localhost:8082/e_create", true);
 <!--        xmlhttp.open("POST", "http://localhost:8080/e_create");-->
         xmlhttp.setRequestHeader("Content-Type", "application/json");
         xmlhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
-        let d = JSON.stringify({name: employerName, birthday: employerBirthday, salary: employerSalary, district: employerDistrict});
-        console.log(d);
+        let d = JSON.stringify({name: employerName.value, birthday: employerBirthday.value, salary: employerSalary.value, district: employerDistrict.value});
         xmlhttp.send(d);
-
-        loadEmployers();
     }
 
     function loadDistricts() {
@@ -77,11 +119,22 @@
     }
 
     function loadEmployers() {
+        document.getElementById("date_employer").value = "";
         let xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 let employers = JSON.parse(this.responseText);
-                let html = '<tr>\n' +
+                createTable(employers);
+            }
+        };
+        xmlhttp.open("GET", "http://localhost:8082/all_e", true);
+<!--        xmlhttp.open("GET", "http://localhost:8080/all_e", true);-->
+        xmlhttp.send();
+        loadDistricts();
+    }
+
+    function createTable(employers){
+        let html = '<tr>\n' +
                     '        <th>ID</th>\n' +
                     '        <th>ФИО</th>\n' +
                     '        <th>Дата рождения</th>\n' +
@@ -101,25 +154,24 @@
 
                 }
                 document.getElementById("employersList").innerHTML = html;
-            }
-        };
-        xmlhttp.open("GET", "http://localhost:8082/all_e", true);
-<!--        xmlhttp.open("GET", "http://localhost:8080/all_e", true);-->
-        xmlhttp.send();
     }
 
     function deleteEmployer(employerId) {
-        console.log(employerId);
         let xmlhttp = new XMLHttpRequest();
         let url = "http://localhost:8082/e_delete?id=" + employerId;
-        console.log(url);
-        xmlhttp.open("DELETE", url, false);
+
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                loadEmployers();
+            }
+        };
+
+        xmlhttp.open("DELETE", url, true);
         xmlhttp.setRequestHeader("Content-Type", "application/json");
         xmlhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
         xmlhttp.send();
     }
 
-    loadDistricts();
     loadEmployers();
 </script>
 </body>

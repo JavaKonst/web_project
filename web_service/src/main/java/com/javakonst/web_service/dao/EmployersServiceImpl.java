@@ -65,7 +65,7 @@ public class EmployersServiceImpl implements EmployersService {
     
     @Override
     public List<Employer> findBetweenDate(String data_start, String data_end) {
-        String datePattern = "dd.MM.yyyy";
+        String datePattern = "yyyy-MM-dd";
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern(datePattern);
         LocalDate dateStart = LocalDate.parse(data_start, dtf);
         LocalDate dateEnd = LocalDate.parse(data_end, dtf);
