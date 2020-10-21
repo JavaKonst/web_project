@@ -1,8 +1,6 @@
 package com.javakonst.web_service.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -24,7 +22,6 @@ public class District {
     @Column
     private String name;
 
-    //TODO:Заменить List на Set
     @OneToMany(mappedBy = "district", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Employer> employers = new ArrayList<>();

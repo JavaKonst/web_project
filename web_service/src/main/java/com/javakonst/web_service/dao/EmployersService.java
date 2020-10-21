@@ -6,21 +6,19 @@ import java.util.List;
 
 public interface EmployersService {
 
-    public List<Employer> getAll();
+    List<Employer> getAll();
     
-    public String getByName(String name);
-    
-    public Employer saveOne(Employer e);
+    Employer saveOne(Employer e);
 
-    public void deleteOne(long id);
+    void deleteOne(long id);
     
-    public void updateOne(Employer e);
+    void updateOne(Employer e);
     
-    public List<Employer> findByDistrict(String district_name);
+    List<Employer> findByDistrict(String district_name);
     
-    public List<Employer> findBetweenDate(String data_start, String data_end);
+    List<Employer> findBetweenDate(String data_start, String data_end);
 
-    public List<Employer> getByDistrictName(String name);
+    List<Employer> getByDistrictName(String name);
 
-    public Employer getOneById(long id);
+    Employer getOneById(long id);
 }

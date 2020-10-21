@@ -52,6 +52,7 @@ public class Employer {
     public LocalDate getBirthday() {
         return birthday;
     }
+
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;

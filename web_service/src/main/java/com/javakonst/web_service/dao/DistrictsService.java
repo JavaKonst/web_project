@@ -6,18 +6,16 @@ import java.util.List;
 
 public interface DistrictsService {
 
-    public District getById(long id);
+    District getByName(String name);
 
-    public District getByName(String name);
-
-    public District saveOne(District d);
+    District saveOne(District d);
     
-    public void deleteByName(String name);
+    void deleteByName(String name);
     
-    public void updateOne(District d);
+    void updateOne(District d);
     
-    public List<District> getAll();
+    List<District> getAll();
     
-    public List<Object> getWithAvgSalary();
+    List<Object> getWithAvgSalary();
     
 }

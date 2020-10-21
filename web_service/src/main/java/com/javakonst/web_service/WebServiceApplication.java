@@ -22,13 +22,6 @@ public class WebServiceApplication {
         SpringApplication.run(WebServiceApplication.class, args);
     }
     
-//    @Bean
-//    CorsConfigurationSource corsConfigurationSource() {
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
-//        return source;
-//    }
-
     @Bean
     public CommandLineRunner run(DistrictsService districtsService, EmployersService employersService) throws Exception {
         return args -> {

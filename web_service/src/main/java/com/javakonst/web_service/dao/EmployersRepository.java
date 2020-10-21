@@ -1,4 +1,4 @@
-package com.javakonst.web_service.services;
+package com.javakonst.web_service.dao;
 
 import com.javakonst.web_service.entity.Employer;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -2,8 +2,6 @@ package com.javakonst.web_service.dao;
 
 import com.javakonst.web_service.entity.District;
 import com.javakonst.web_service.entity.Employer;
-import com.javakonst.web_service.services.DistrictsRepository;
-import com.javakonst.web_service.services.EmployersRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -47,12 +45,6 @@ public class EmployersServiceImpl implements EmployersService {
     @Override
     public List<Employer> getAll() {
         return employersRepo.findAll();
-    }
-    
-    @Override
-    public String getByName(String name) {
-        Employer empl = employersRepo.getEmployerByName(name);
-        return empl.toString();
     }
     
     @Override

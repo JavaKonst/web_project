@@ -264,7 +264,7 @@ function deleteEmployer(employer_id) {
 function deleteDistrict(district_name) {
     let output = function () {
         if (this.readyState == 4 && this.status == 200) {
-            getDistrictsWithAvgSalary();
+            loadDistricts();
         }
     };
     let url = get_host_service() + "/d_delete?name=" + district_name;

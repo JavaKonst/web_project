@@ -1,11 +1,8 @@
 package com.javakonst.web_service.dao;
 
 import com.javakonst.web_service.entity.District;
-import com.javakonst.web_service.services.DistrictsRepository;
-import com.javakonst.web_service.services.EmployersRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,8 +11,7 @@ import java.util.List;
 public class DistrictsServiceImpl implements DistrictsService {
     
     private DistrictsRepository districtsRepo;
-    private EmployersRepository employersRepo;
-    
+
     @Override
     public District saveOne(District d) {
         District one = districtsRepo.getByName(d.getName());
@@ -23,7 +19,6 @@ public class DistrictsServiceImpl implements DistrictsService {
         return null;
     }
 
-    @Transactional
     @Override
     public void deleteByName(String name) {
         districtsRepo.deleteByName(name);
@@ -45,11 +40,6 @@ public class DistrictsServiceImpl implements DistrictsService {
     public List<Object> getWithAvgSalary() {
         List<Object> districtsList = districtsRepo.getWithAvgSalary();
         return districtsList;
-    }
-
-    @Override
-    public District getById(long id){
-        return districtsRepo.getOne(id);
     }
 
     @Override
