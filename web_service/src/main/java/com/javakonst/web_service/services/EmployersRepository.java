@@ -27,6 +27,7 @@ public interface EmployersRepository extends JpaRepository<Employer, Long> {
 
     List<Employer> getEmployersByDistrictName(String name);
 
+    Employer getEmployerById(long id);
 
 }
 

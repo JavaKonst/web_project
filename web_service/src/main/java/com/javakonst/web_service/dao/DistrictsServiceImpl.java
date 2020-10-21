@@ -18,8 +18,9 @@ public class DistrictsServiceImpl implements DistrictsService {
     
     @Override
     public District saveOne(District d) {
-
-        return districtsRepo.saveAndFlush(d);
+        District one = districtsRepo.getByName(d.getName());
+        if (one == null) return districtsRepo.save(d);
+        return null;
     }
 
     @Transactional
@@ -29,13 +30,12 @@ public class DistrictsServiceImpl implements DistrictsService {
     }
     
     @Override
-    public void updateOne(District d) {
-        District one = districtsRepo.getOne(d.getId());
-        one.setName(d.getName());
-        one.setEmployers(d.getEmployers());
-        districtsRepo.flush();
+    public void updateOne(District district) {
+        District one = districtsRepo.getOne(district.getId());
+        one.setName(district.getName());
+        districtsRepo.save(one);
     }
-    
+
     @Override
     public List<District> getAll() {
         return districtsRepo.findAll();

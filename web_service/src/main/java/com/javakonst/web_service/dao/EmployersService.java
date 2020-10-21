@@ -1,7 +1,6 @@
 package com.javakonst.web_service.dao;
 
 import com.javakonst.web_service.entity.Employer;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,4 +21,6 @@ public interface EmployersService {
     public List<Employer> findBetweenDate(String data_start, String data_end);
 
     public List<Employer> getByDistrictName(String name);
+
+    public Employer getOneById(long id);
 }

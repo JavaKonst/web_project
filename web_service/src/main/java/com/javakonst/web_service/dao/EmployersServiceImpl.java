@@ -6,14 +6,10 @@ import com.javakonst.web_service.services.DistrictsRepository;
 import com.javakonst.web_service.services.EmployersRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
-
-import static java.util.Objects.isNull;
 
 @Service
 @AllArgsConstructor
@@ -42,9 +38,10 @@ public class EmployersServiceImpl implements EmployersService {
     public void updateOne(Employer e) {
         Employer one = employersRepo.getOne(e.getId());
         one.setName(e.getName());
-        one.setBirthday(e.getBirthday());
         one.setSalary(e.getSalary());
+        one.setBirthday(e.getBirthday());
         one.setDistrict(e.getDistrict());
+        employersRepo.save(one);
     }
     
     @Override
@@ -78,5 +75,9 @@ public class EmployersServiceImpl implements EmployersService {
         return employersRepo.getEmployersByDistrictName(name);
     }
 
+    @Override
+    public Employer getOneById(long id){
+        return employersRepo.getEmployerById(id);
+    }
 
 }

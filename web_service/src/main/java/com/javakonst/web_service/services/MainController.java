@@ -21,18 +21,6 @@ public class MainController {
     private EmployersService employersService;
     private DistrictsService districtsService;
 
-    @GetMapping("/all_d_with_s")
-    public List<Object> getDistrictsWithAvgSamary() {
-        return districtsService.getWithAvgSalary();
-    }
-
-    @GetMapping(value = "/all_e{district_name}")
-    public List<Employer> getEmployersByDistricts(@RequestParam(defaultValue = "all") String district_name, HttpServletResponse response) {
-//        response.setHeader("Access-Control-Allow-Origin", "*");
-        if (district_name.equals("all")) return employersService.getAll();
-        return employersService.findByDistrict(district_name);
-    }
-
     @GetMapping("/search{ds}{de}")
     public List<Employer> getEmployersBetweenDate(@RequestParam String ds, @RequestParam String de) {
         return employersService.findBetweenDate(ds, de);
@@ -49,30 +37,25 @@ public class MainController {
         districtsService.deleteByName(name);
     }
 
-//    @PostMapping("/e_update")
-//    public void updateEmployer(@RequestBody Employer employer) {
-//        employersService.updateOne(employer);
-//    }
-//
-//    @PostMapping("/d_update")
-//    public void updateDistrict(@RequestBody District district) {
-//        districtsService.updateOne(district);
-//    }
+    @PostMapping("/e_update")
+    public void updateEmployer(@RequestBody Employer employer) {
+        employersService.updateOne(employer);
+    }
+
+    @PostMapping("/d_update")
+    public void updateDistrict(@RequestBody District district) {
+        districtsService.updateOne(district);
+    }
 
     @PostMapping("/e_create")
     public void createEmployer(@RequestBody Employer employer) {
-//        response.setHeader("Access-Control-Allow-Origin", "*");
-//        response.setHeader("Content-Type", "application/json");
-//        log.info(request.getContextPath());
-        Employer employer1 = employersService.saveOne(employer);
-        System.out.println(employer1.toString());
-
+        employersService.saveOne(employer);
     }
 
-//    @PostMapping("/d_create")
-//    public void createDistrict(@RequestBody District district) {
-//        districtsService.saveOne(district);
-//    }
+    @PostMapping("/d_create")
+    public void createDistrict(@RequestBody District district) {
+        districtsService.saveOne(district);
+    }
 
     @GetMapping("/all_d")
     public List<District> getall(){
@@ -84,4 +67,27 @@ public class MainController {
         return employersService.getByDistrictName(name);
     }
 
+    @GetMapping("/all_d_with_s")
+    public List<Object> getDistrictsWithAvgSamary() {
+        return districtsService.getWithAvgSalary();
+    }
+
+    @GetMapping(value = "/all_e{district_name}")
+    public List<Employer> getEmployersByDistricts(@RequestParam(defaultValue = "all") String district_name, HttpServletResponse response) {
+        if (district_name.equals("all")) return employersService.getAll();
+        return employersService.findByDistrict(district_name);
+    }
+
+    @GetMapping("/get_e_by_id{id}")
+    public Employer getEmployerById(@RequestParam long id){
+        return employersService.getOneById(id);
+    }
+
+    @GetMapping("/get_d_by_name{id}")
+    public District getDistrictByName(@RequestParam String name){
+        return districtsService.getByName(name);
+    }
+
 }
+
+//        response.setHeader("Access-Control-Allow-Origin", "*");
