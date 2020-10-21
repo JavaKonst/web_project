@@ -1,7 +1,6 @@
 function getDistrictsWithAvgSalary() {
         let url = "/web_service-1.0/all_d_with_s";
-        let xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function () {
+        let output = function () {
             if (this.readyState == 4 && this.status == 200) {
                 document.getElementById("input_form").style.display = "none";
                 let districts = JSON.parse(this.responseText);
@@ -26,10 +25,7 @@ function getDistrictsWithAvgSalary() {
 
             }
         };
-        xmlhttp.open("GET", url, true);
-        xmlhttp.setRequestHeader("Content-Type", "application/json");
-        xmlhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
-        xmlhttp.send();
+        send_get(output, url);
     }
 
 function getEmployersByDistrict(district_name){
@@ -175,4 +171,4 @@ function deleteDistrict(district_name) {
     send_delete(output, url);
 }
 
-loadEmployers();
+// loadEmployers();
