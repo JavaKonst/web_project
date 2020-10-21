@@ -1,11 +1,10 @@
 function getDistrictsWithAvgSalary() {
-        let url = "http://localhost:8082/all_d_with_s";
+        let url = "/web_service-1.0/all_d_with_s";
         let xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 document.getElementById("input_form").style.display = "none";
                 let districts = JSON.parse(this.responseText);
-                console.log(districts);
                 let html = '<tr>\n' +
                                 '<th>Название отдела</th>\n' +
                                 '<th>Средняя зарплата</th>\n' +
@@ -34,7 +33,7 @@ function getDistrictsWithAvgSalary() {
     }
 
 function getEmployersByDistrict(district_name){
-    let url = "http://localhost:8082/all_e_by_district?name="+district_name;
+    let url = "/web_service-1.0/all_e_by_district?name="+district_name;
     let output = function () {
         if (this.readyState == 4 && this.status == 200) {
             document.getElementById("input_form").style.display = "block";
@@ -54,7 +53,7 @@ function findEmployer() {
         document.getElementById("date1_employer").value = date0;
     }
 
-    let url = "http://localhost:8082/search?ds=" + date0 + "&de="+date1;
+    let url = "/web_service-1.0/search?ds=" + date0 + "&de="+date1;
     let output = function () {
         if (this.readyState == 4 && this.status == 200) {
             let employers = JSON.parse(this.responseText);
@@ -75,7 +74,7 @@ function createEmployer() {
         return;
     }
 
-    let url = "http://localhost:8082/e_create";
+    let url = "/web_service-1.0/e_create";
     let new_employer = JSON.stringify({
         name: employerName.value,
         birthday: employerBirthday.value,
@@ -110,7 +109,7 @@ function loadDistricts() {
         }
     };
 
-    let url = "http://localhost:8082/all_d";
+    let url = "/web_service-1.0/all_d";
     send_get(output, url);
     }
 
@@ -127,7 +126,7 @@ function loadEmployers() {
                 createTable(employers);
             }
         };
-        let url = "http://localhost:8082/all_e";
+        let url = "/web_service-1.0/all_e";
         send_get(output, url);
         loadDistricts();
     }
@@ -162,7 +161,7 @@ function deleteEmployer(employer_id) {
                 loadEmployers();
             }
         };
-        let url = "http://localhost:8082/e_delete?id=" + employer_id;
+        let url = "/web_service-1.0/e_delete?id=" + employer_id;
         send_delete(output, url);
     }
 
@@ -172,7 +171,7 @@ function deleteDistrict(district_name) {
             getDistrictsWithAvgSalary();
         }
     };
-    let url = "http://localhost:8082/d_delete?name=" + district_name;
+    let url = "/web_service-1.0/d_delete?name=" + district_name;
     send_delete(output, url);
 }
 

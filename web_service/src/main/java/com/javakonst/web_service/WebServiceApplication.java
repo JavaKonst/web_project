@@ -43,7 +43,7 @@ public class WebServiceApplication {
             for (int i = 0; i < employerNames.size(); i++) {
                 Employer employer = new Employer();
                 employer.setName(employerNames.get(i));
-                employer.setSalary(random.nextInt(10)*9000);
+                employer.setSalary(random.nextInt(10)*9000 + 10000);
                 int year = 2000 - random.nextInt(50);
                 int month = random.nextInt(12) + 1;
                 int day = random.nextInt(28) + 1;

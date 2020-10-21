@@ -10,10 +10,9 @@
     </parent>
     <groupId>com.javakonst</groupId>
     <artifactId>web_client</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>war</packaging>
     <name>web_client</name>
-    <description>Demo project for Spring Boot</description>
 
     <properties>
         <java.version>1.8</java.version>
