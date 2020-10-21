@@ -44,4 +44,12 @@ tr:nth-child(even) {
     display: none;
 }
 
+#employer_id{
+    display:none;
+}
+
+#district_id{
+    display:none;
+}
+
 

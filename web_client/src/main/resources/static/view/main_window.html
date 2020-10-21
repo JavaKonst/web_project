@@ -4,16 +4,16 @@
     <meta charset="utf-8">
 <!-- ---------------------------------------------------------------------------------------- -->
 <!-- --------------------Для деплойда -->
-<!--    <script type="text/javascript" src="/web_client-1.0/services/controller.js"> </script>-->
-<!--    <script type="text/javascript" src="/web_client-1.0/services/host.js"> </script>-->
-<!--    <script type="text/javascript" src="/web_client-1.0/model/main_model.js"> </script>-->
-<!--    <link rel="stylesheet" type="text/css" href="/web_client-1.0/view/style.css">-->
+    <script type="text/javascript" src="/web_client-1.0/services/controller.js"> </script>
+    <script type="text/javascript" src="/web_client-1.0/services/host.js"> </script>
+    <script type="text/javascript" src="/web_client-1.0/model/main_model.js"> </script>
+    <link rel="stylesheet" type="text/css" href="/web_client-1.0/view/style.css">
 
 <!-- --------------------Для отладки -->
-    <script type="text/javascript" src="/services/host.js"> </script>
-    <script type="text/javascript" src="/services/controller.js"> </script>
-    <script type="text/javascript" src="/model/main_model.js"> </script>
-    <link rel="stylesheet" type="text/css" href="/view/style.css">
+<!--    <script type="text/javascript" src="/services/host.js"> </script>-->
+<!--    <script type="text/javascript" src="/services/controller.js"> </script>-->
+<!--    <script type="text/javascript" src="/model/main_model.js"> </script>-->
+<!--    <link rel="stylesheet" type="text/css" href="/view/style.css">-->
 
 <!-- ---------------------------------------------------------------------------------------- -->
 
@@ -41,33 +41,33 @@
 
 <form id="create_employer" action="#">
     <h4>Добавление сотрудника</h4>
-    <input id="employer_name" placeholder="ФИО">
-    <input id="employer_birthday" type="date">
-    <input id="employer_salary" placeholder="Зарплата">
-    <select id="employer_district"></select>
+    <input id="employer_name" placeholder="ФИО" title="Имя сотрудника">
+    <input id="employer_birthday" type="date" title="Дата рождения сотрудника">
+    <input id="employer_salary" placeholder="Зарплата" title="Зарплата сотрудника">
+    <select id="employer_district" title="Отдел, где будет работать сотрудник"></select>
     <button onclick="createEmployer()">Добавить</button>
 </form>
 
 <form id="create_district" action="#">
-    <h4>Добавление отдела</h4>
-    <input id="new_district_name" placeholder="Название отдела">
+    <h4>Создание отдела</h4>
+    <input id="new_district_name" placeholder="Название отдела" title="Название отдела">
     <button onclick="createDistrict()">Добавить</button>
 </form>
 
 <form id="edit_employer" action="#">
     <h4>Редактирование сотрудника</h4>
-    <input id="employer_id" disabled="true">
-    <input id="edit_employer_name" placeholder="ФИО">
-    <input id="edit_employer_birthday" type="date">
-    <input id="edit_employer_salary" placeholder="Зарплата">
-    <select id="edit_employer_district"></select>
+    <input id="employer_id" disabled>
+    <input id="edit_employer_name" placeholder="ФИО" title="Имя сотрудника">
+    <input id="edit_employer_birthday" type="date" title="Дата рождения сотрудника">
+    <input id="edit_employer_salary" placeholder="Зарплата" title="Зарплата сотрудника">
+    <select id="edit_employer_district" title="Отдел, где будет работать сотрудник"></select>
     <button onclick="editEmployer()">Изменить</button>
 </form>
 
 <form id="edit_district" action="#">
     <h4>Редактирование отдела</h4>
     <input id="district_id" disabled="true">
-    <input id="edit_district_name" placeholder="Название отдела">
+    <input id="edit_district_name" title="Название отдела">
     <button onclick="editDistrict()">Изменить</button>
 </form>
 

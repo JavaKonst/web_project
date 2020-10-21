@@ -1,4 +1,5 @@
 function getDistrictsWithAvgSalary() {
+    document.getElementById("tableList").innerHTML = "";
     showField("edit_employer", false);
     showField("edit_district", false);
     showField("create_district", false);
@@ -68,7 +69,7 @@ function findEmployer() {
     let output = function () {
         if (this.readyState == 4 && this.status == 200) {
             let employers = JSON.parse(this.responseText);
-            createTable(employers);
+            createTableEmployers(employers);
         }
     }
     send_get(output, url);
@@ -212,6 +213,7 @@ function getListDistricts(){
 }
 
 function loadDistricts() {
+    document.getElementById("tableList").innerHTML = "";
     showField("edit_employer", false);
     showField("edit_district", false);
     showField("create_district", true);
@@ -229,6 +231,7 @@ function loadDistricts() {
 }
 
 function loadEmployers() {
+    document.getElementById("tableList").innerHTML = "";
     showField("edit_employer", false);
     showField("edit_district", false);
     showField("create_district", false);
